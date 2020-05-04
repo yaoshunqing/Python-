@@ -21,6 +21,7 @@ def run_game():
     # 创建一艘飞船
     ship = Ship(ai_settings, screen)
 
+
     # 创建一个用于存储子弹的编组
     bullets = Group()
 
