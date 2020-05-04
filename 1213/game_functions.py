@@ -81,12 +81,17 @@ def update_bullets(ai_settings, screen, ship, aliens, bullets):
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
+    check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets)
+
+def check_bullet_alien_collisions(ai_settings, screen, ship, aliens, bullets):
+    """响应子弹和外星人的碰撞"""
+    #删除发生碰撞的子弹和外星人
     #检查是否有子弹击中
     #如果是这样，就删除相应的子弹和外星人
     collisions = pygame.sprite.groupcollide(bullets, aliens, True, True)
     # 新增这行代码遍历bullets中的每颗子弹，再遍历编组aliens中外星人。每当有子弹和外星人的rect重叠时，groupcollide()就在它返回
     # 的字典中添加一个键值对。两个实际参数True告诉pygame删除发生碰撞的子弹和外星人
-    print(len(aliens))
+    #print(len(aliens))
     #删除现有的子弹并新建一群外星人
     if len(aliens) == 0:
         bullets.empty()
