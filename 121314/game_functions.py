@@ -7,6 +7,8 @@ import sys
 import pygame
 from bullet import Bullet
 from alien import Alien
+from time import sleep
+
 
 def check_keydown_events(event, ai_settings, screen, ship, bullets):
     """响应按键"""
@@ -59,6 +61,11 @@ def check_events(ai_settings, screen, ship, bullets):
 def update_screen(ai_settings, screen, ship, aliens, bullets):
     # 每次循环重绘屏幕
     screen.fill(ai_settings.bg_color)
+
+    # 添加背景图片会变得有点卡顿，且不好看，暂时搁置
+    # background = pygame.image.load_basic('images/universe.bmp').convert()
+    # screen.blit(pygame.transform.scale(background, (1200,800)), (0, 0))
+
     # 在飞船和外星人后面重绘所有子弹
     for bullet in bullets.sprites():
         bullet.draw_bullet()
@@ -160,7 +167,7 @@ def change_fleet_direction(ai_settings, aliens):
 
 
 
-def update_aliens(ai_settings, ship, aliens):
+def update_aliens(ai_settings, stats, screen, ship, aliens, bullets):
     """检查是否有外星人位于屏幕边缘，并更新外星人群中外星人位置"""
 
     check_fleet_edges(ai_settings, aliens)
@@ -168,5 +175,43 @@ def update_aliens(ai_settings, ship, aliens):
 
     # 检测外星人和飞船之间的碰撞
     if pygame.sprite.spritecollideany(ship, aliens):
-        print("Ship hit!!!")
+        ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+
+    #检查是否有外星人到达屏幕底端
+    check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets)
+
+
+def ship_hit(ai_settings, stats, screen, ship, aliens, bullets):
+    """响应被外星人撞到的飞船"""
+    # 将ships_left减1
+    if stats.ships_left > 0:
+        stats.ships_left -= -1
+
+        #清空外星人列表和子弹列表
+        aliens.empty()
+        bullets.empty()
+
+        #创建一群新的外星人，并将飞船放到屏幕底端中央
+        create_fleet(ai_settings, screen, ship, aliens)
+        ship.center_ship()
+
+        # 暂停
+        sleep(0.5)
+    else:
+        stats.game_active = False
+
+def check_aliens_bottom(ai_settings, stats, screen, ship, aliens, bullets):
+    """检查是否有外星人到达了屏幕底端"""
+    screen_rect = screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            # 像飞船被撞到一样进行处理
+            ship_hit(ai_settings, stats, screen, ship, aliens, bullets)
+            break
+
+
+
+
+
+
 
