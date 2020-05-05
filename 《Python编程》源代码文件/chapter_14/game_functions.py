@@ -157,7 +157,6 @@ def ship_hit(ai_settings, screen, stats, sb, ship, aliens, bullets):
     if stats.ships_left > 0:
         # Decrement ships_left.
         stats.ships_left -= 1
-        
         # Update scoreboard.
         sb.prep_ships()
         
