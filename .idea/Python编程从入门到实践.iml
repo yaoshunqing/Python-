@@ -8,6 +8,7 @@
       <sourceFolder url="file://$MODULE_DIR$/121314" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/15" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/16" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/《Python编程》源代码文件" />
     </content>
     <orderEntry type="jdk" jdkName="Python 3.6 (demo)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
